@@ -11,8 +11,10 @@
 ```{r}
 library(AER)
 library(sandwich)
-library(PLM)
+library(plm)
 library(tidyverse)
-Data <- readRDS("./exam_TWEA1.R", local = TRUE)
+Data <- readRDS("./exam_TWEA1.R")
+
+
 ```
 
