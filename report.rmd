@@ -1,6 +1,18 @@
 # Post TWEA 
 
+<!-- Uncomment det her og kør det for at versionere pakker min ven -->
+```{r, echo = FALSE}
+# install.packages("renv")
+# library(renv)
+# renv::init() #Vælg 2
+```
+
+
 ```{r}
-Data <- readRDS("exam_TWEA1.R")
+library(AER)
+library(sandwich)
+library(PLM)
+library(tidyverse)
+Data <- readRDS("./exam_TWEA1.R", local = TRUE)
 ```
 
