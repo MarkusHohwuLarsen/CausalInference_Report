@@ -1,35 +1,49 @@
 ---
 title: "Causal Inference Report"
+author: |
+  **Student Id:**  
+  Markus Alexander Hohwü Larsen
+  Lukas Bach Mikkelsen  
+  Victor Maj
 output: pdf_document
 fontsize: 12pt
 header-includes:
    - \usepackage{titling}
    - \pretitle{\begin{center}\Huge\bfseries}
    - \posttitle{\end{center}}
-   - \preauthor{\begin{center}}
-   - \postauthor{\end{center}}
    - \predate{\begin{center}}
    - \postdate{\end{center}}
 geometry: a4paper
 ---
+\newpage
 
-\vspace*{\fill}
+# **Topic 3: Compulsory licensing of patents and innovation**  
 
-# **Causal Inference Report**
 
-**Student Id:**  
-Markus Alexander Hohwü Larsen  
-Lukas Bach Mikkelsen  
-Victor Maj  
-
-**Topic 3:**  
-Compulsory Licensing of Patents and Innovation  
 
 \vspace{1cm}
+```{r, echo = FALSE}
+library(kableExtra)
+var_desc <- data.frame(
+  Variable = c("uspto_class", "grntyr", "count_cl", "anypatent", "count_usa", 
+               "counter_cl_itt", "mainclass_id", "subcl", "twea"),
+  Description = c(
+    "specific technology grouping of patent based on common subject matter",
+    "year of patent grant",
+    "Number of patents adopted under forced licensing",
+    "1 if any patent have been adopted under forced licensing.",
+    "Number of patents developed domestically",
+    "Number of available patents under forced licensing",
+    "Main class code",
+    "Subclass code",
+    "Whether TWEA was enacted"
+  )
+)
 
-\begin{center}
-  ![Your Image Caption](photo.png)
-\end{center}
+kable(var_desc, format = "latex", booktabs = TRUE, 
+      caption = "Variable Descriptions") %>%
+  kable_styling(latex_options = c("striped", "hold_position"))
+```
 
 \vspace*{\fill}
 
@@ -41,7 +55,7 @@ Compulsory Licensing of Patents and Innovation
 ```
 
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(AER)
 library(sandwich)
 library(plm)

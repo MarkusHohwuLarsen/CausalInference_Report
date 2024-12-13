@@ -1,0 +1,22 @@
+
+Call:
+lm(formula = count_usa ~ count_cl * twea + count_cl_itt, data = data)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.580 -0.343 -0.343 -0.343 67.657 
+
+Coefficients: (1 not defined because of singularities)
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    0.343012   0.003005 114.147   <2e-16 ***
+count_cl      -0.111271   0.013486  -8.251   <2e-16 ***
+twea           0.468383   0.005466  85.697   <2e-16 ***
+count_cl_itt   0.094367   0.004170  22.631   <2e-16 ***
+count_cl:twea        NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.356 on 300579 degrees of freedom
+Multiple R-squared:  0.03064,	Adjusted R-squared:  0.03063 
+F-statistic:  3167 on 3 and 300579 DF,  p-value: < 2.2e-16
+
