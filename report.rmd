@@ -1,0 +1,6 @@
+# Post TWEA 
+
+```{r}
+Data <- readRDS("exam_TWEA1.R")
+```
+
