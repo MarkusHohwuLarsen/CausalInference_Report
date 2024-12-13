@@ -127,8 +127,9 @@ ggplot(data_long, aes(x = grntyr, y = value, color = variable)) +
 # Assuming your data is in a data frame called 'data'
 # Reshape the data from wide to long format
 library(tidyr)
-data_long <- data %>% mutate(count_germany_twea = ifelse(anypatent == 1, count_germany, 0)) %>% 
-  pivot_longer(cols = c(count_germany, count_germany_twea), 
+data_long <- data %>% mutate(count_germany_twea = ifelse(uspto_class%in% test1111, count_germany, 0),
+                             count_ger2 = count_germany - count_germany_twea) %>% 
+  pivot_longer(cols = c(count_ger2, count_germany_twea), 
                names_to = "variable", 
                values_to = "value")
 
