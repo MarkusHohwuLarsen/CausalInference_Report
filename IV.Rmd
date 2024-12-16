@@ -25,41 +25,6 @@ skriv om hvorfor at at det holder.
 non-zero first-stage:
 not lets check to see if we have a strong instrument. the non-zero first-stage assumption is a testable assumption. so using a standard Technics used in the turtoriels we find that.
 not that in the papir is looking at the postTWEA in the IV part. 
-```{r}
-#First stage 
-twea_df_posttwea <- Data %>% 
-  filter(
-    twea == 1
-  )
 
-model_fs <- lm(count_cl_itt ~ count_germany, data = twea_df_posttwea)
-robust_se <- coeftest(model_fs, vcov = vcovHC(model_fs, type = "HC3"))
-round(robust_se, 4)
-
-summary(model_fs)$fstatistic
-```
-here we see that counter_cl_itt that are Number of available patents under forced licensing. 
-
-
-
-now lets try to compute the 2SLS 
-```{r}
-iv_model <- ivreg(count_usa ~ count_cl_itt | count_germany , data = twea_df_posttwea)
-robust_se <- coeftest(iv_model, vcov = vcovHC(iv_model, type = "HC0"))
-round(robust_se,digits = 4)
-
-```
-here we see the 2SLS. se wee a postiv correlation
-lets for good measure also just check 
-```{r}
-iv.summary <- summary(iv_model, diagnostics=TRUE, vcov=sandwich::sandwich)
-round(iv.summary$diagnostics["Weak instruments",], 4)
-```
-
- and 
-```{r}
-round(iv.summary$diagnostics["Wu-Hausman",] , 4)
-```
- 
  
  
