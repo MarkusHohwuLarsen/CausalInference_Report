@@ -9,6 +9,9 @@ output: pdf_document
 fontsize: 12pt
 header-includes:
    - \usepackage{titling}
+   - \usepackage{setspace}
+   - \setstretch{1.5}
+   - \fontsize{11}{13}\selectfont
    - \pretitle{\begin{center}\Huge\bfseries}
    - \posttitle{\end{center}}
    - \predate{\begin{center}}
@@ -19,14 +22,20 @@ geometry: a4paper
 
 # **Topic 3: Compulsory licensing of patents and innovation**  
 
+# Introduction
+
+In this report we study the effects of compulsory licensing on innovation. Compulsory licensing of foreign patents gives domestic firms the opportunity to produce foreign inventions without the consent of the patent owners. Without looking at any data one could argue that compulsory licensing discourages domestic innovation, since access to these patents at low prices lessens incentives for domestic firms to produce similar inventions. On the other hand, one could argue that compulsory licensing allows firms to increase their production capacities, thereby leading to new innovation through investments into research and more. The main research question of this report is therefore:
+Does compulsory licensing of foreign patents/technologies encourage or decrease domestic invention?
+
+In order to help us answer this research question we use the provided dataset "exam_TWEA.r", similar to the dataset of our main reference "Moser, P., Voena, A. (2012).  Compulsory licensing:  Evidence from the trading with the enemy act.American Economic Review, 102(1), 396-427". This will be the main paper we refer to throughout the report. 
+The dataset provided is a natural experiment for compulsory licensing. During the first world war, the US passed the trading with the enemy act (TWEA) that allowed the US Government to issue foreign licenses to US firms, if they contributed to the war effort. 
 
 
-\vspace{1cm}
 ```{r, echo = FALSE}
 library(kableExtra)
 var_desc <- data.frame(
   Variable = c("uspto_class", "grntyr", "count_cl", "anypatent", "count_usa", 
-               "counter_cl_itt", "mainclass_id", "subcl", "twea"),
+               "count_cl_itt", "mainclass_id", "subcl", "twea"),
   Description = c(
     "specific technology grouping of patent based on common subject matter",
     "year of patent grant",
@@ -45,7 +54,9 @@ kable(var_desc, format = "latex", booktabs = TRUE,
   kable_styling(latex_options = c("striped", "hold_position"))
 ```
 
-\vspace*{\fill}
+So each observation point provides in the dataframe is the evolution of patents throughout the years. for intance if we look at the fir st observation of the dataframe we find the organic chemistry patent 008/09410D. which we start measuring at year 1875. we this patent evolution of the patent until year 1939 and then switch to observe a new patent. this is why the data provied is panel data as we observations are for the same subjects each time. moreover since the data proved are longitudinal studies this tells us that the data is observational rather than experimental. this is further verified since we are
+
+
 
 <!-- Uncomment det her og kør det for at versionere pakker min ven -->
 ```{r, echo = FALSE}
@@ -63,3 +74,26 @@ library(tidyverse)
 Data <- readRDS("./exam_TWEA1.R")
 ```
 
+\begin{table}[!htbp] \centering 
+  \caption{Regression Results} 
+  \label{tab:regression_results} 
+\begin{tabular}{@{\extracolsep{5pt}}lc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{1}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-2} 
+\\[-1.8ex] & count\_usa \\ 
+\hline \\[-1.8ex] 
+ anypatent & 0.283$^{***}$ \\ 
+  & (0.021) \\ 
+  & \\ 
+\hline \\[-1.8ex] 
+Observations & 300,583 \\ 
+R$^{2}$ & 0.001 \\ 
+Adjusted R$^{2}$ & $-$0.015 \\ 
+F Statistic & 178.311$^{***}$ (df = 1; 295893) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{1}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 

@@ -1,0 +1,36 @@
+```{r}
+### Load Libraries
+library(ggplot2)
+library(plm)
+library(dplyr)
+library(AER)
+library(lmtest)
+library(tidyr)
+library(sandwich)
+library(stargazer)
+
+### Load Data
+data <- readRDS("exam_TWEA1.R")
+data_p <- pdata.frame(data, index = c("uspto_class", "grntyr")) 
+# Naive OLS
+ols_model <- plm(count_usa ~ anypatent, data = data_p, model = "within", effect = "twoways")
+summary(ols_model)
+
+#IV regression
+#First stage:
+iv_fs <- plm(anypatent ~ count_cl_itt, data = data_p, model = "within", effect = "twoways")
+summary(iv_fs)
+#Second stage:
+iv_model <- plm(count_usa ~ anypatent | count_cl_itt, data= data_p, model = "within", effect = "twoways")
+# summary(iv_model)
+
+# stargazer(ols_model, 
+#          type = "latex",
+#           title = "Regression Results",
+#           label = "tab:regression_results",
+#           out = "regression_results.tex")
+
+```
+
+
+
