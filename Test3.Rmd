@@ -10,21 +10,28 @@ library(sandwich)
 library(stargazer)
 
 ### Load Data
-data <- readRDS("exam_TWEA1.R")
+data <- readRDS("exam_TWEA1.R") %>% mutate(licenses_squared = count_cl_itt^2)
 data_p <- pdata.frame(data, index = c("uspto_class", "grntyr")) 
 # Naive OLS
-ols_model <- plm(count_usa ~ anypatent, data = data_p, model = "within", effect = "twoways")
-summary(ols_model)
-
-#IV regression
-#First stage:
-iv_fs <- plm(anypatent ~ count_cl_itt, data = data_p, model = "within", effect = "twoways")
-summary(iv_fs)
-#Second stage:
-iv_model <- plm(count_usa ~ anypatent | count_cl_itt, data= data_p, model = "within", effect = "twoways")
-# summary(iv_model)
-
-# stargazer(ols_model, 
+# ols_model1 <- plm(count_usa ~ anypatent + count_for, data=data_p, model = "within", effect = "twoways")
+# ols_model2 <- plm(count_usa ~ anypatent, data = data_p, model = "within", effect = "twoways")
+# ols_model3 <- plm(count_usa ~ count_cl_itt + licenses_squared + count_for, data = data_p, model = "within", effect = "twoways")
+# ols_model4 <- plm(count_usa ~ count_cl_itt + count_for, data = data_p, model = "within", effect = "twoways")
+# summary(ols_model)
+# 
+# IV regression
+# #First stage:
+iv_fs1 <- plm(count_cl_itt ~ count_germany, data = data_p, model = "within", effect = "twoways")
+# iv_fs2 <- plm(count_cl_itt ~ count_germany*twea + count_for*twea, data = data_p, model = "within", effect = "twoways")
+# summary(iv_fs)
+# #Second stage:
+# iv_model <- plm(count_usa ~ anypatent | count_cl_itt, data= data_p, model = "within", effect = "twoways")
+# # summary(iv_model)
+stargazer(iv_fs1, iv_fs2,
+         type = "html",
+          title = "Regression Results",
+          out = "regression_results.html")
+# stargazer(ols_model1, ols_model2, ols_model3, ols_model4,
 #          type = "latex",
 #           title = "Regression Results",
 #           label = "tab:regression_results",
@@ -32,5 +39,24 @@ iv_model <- plm(count_usa ~ anypatent | count_cl_itt, data= data_p, model = "wit
 
 ```
 
+```{r}
+# td <- model.matrix(~ factor(grntyr, levels = 1875:1939) - 1, data = data)
+# data_p <- cbind(data_p, td)
+# colnames(data_p)[(ncol(data_p) - ncol(td) + 1):ncol(data_p)] <- paste0("td_", 1875:1939)
+# td_vars <- paste0("td_", 1875:1939)
 
+# formula1 <- as.formula(paste("count_cl ~ count_cl_itt +", paste(td_vars, collapse = " + ")))
+data_p <- pdata.frame(hej, index = c("uspto_class", "grntyr"))
+model1 <- plm(count_cl ~ count_cl_itt, data = data_p, model = "within", effect = "twoways")
+summary(model1)
+model2 <- plm(year_conf ~ year_conf_itt, data=data_p, model = "within", effect = "twoways")
+
+# formula3 <- as.formula(paste("count_usa ~ count_cl +", paste(td_vars, collapse = " + ")))
+model3 <- ivreg(count_usa ~ count_cl | count_cl_itt + td, data = data_p)
+summary(model3)
+
+# Regression 4: IV regression for count_usa with year_conf as endogenous (Two-way effects)
+model4 <- ivreg(count_usa ~ year_conf| year_conf_itt + td, data = data_p)
+summary(model4)
+```
 
